@@ -3,20 +3,31 @@ const httpStatus = require('http-status');
 const jwt = require('jsonwebtoken');
 const chai = require('chai'); // eslint-disable-line import/newline-after-import
 const expect = chai.expect;
-const app = require('../../index');
 const config = require('../../config/config');
+const app = require('../../config/express');
+const { MongoMemoryServer } = require('mongodb-memory-server-core');
+const mongoose = require('mongoose');
 
 chai.config.includeStack = true;
 
 describe('## Auth APIs', () => {
+  before(async () => {
+    const mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri());
+  });
+
+  after(async () => {
+    await mongoose.connection.close();
+  });
+
   const validUserCredentials = {
     username: 'react',
-    password: 'express'
+    password: 'express',
   };
 
   const invalidUserCredentials = {
     username: 'react',
-    password: 'IDontKnow'
+    password: 'IDontKnow',
   };
 
   let jwtToken;

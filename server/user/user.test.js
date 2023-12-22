@@ -2,26 +2,30 @@ const mongoose = require('mongoose');
 const request = require('supertest-as-promised');
 const httpStatus = require('http-status');
 const chai = require('chai'); // eslint-disable-line import/newline-after-import
+const app = require('../../config/express');
+const { MongoMemoryServer } = require('mongodb-memory-server-core');
 const expect = chai.expect;
-const app = require('../../index');
 
 chai.config.includeStack = true;
 
-/**
- * root level hooks
- */
-after((done) => {
-  // required because https://github.com/Automattic/mongoose/issues/1251#issuecomment-65793092
-  mongoose.models = {};
-  mongoose.modelSchemas = {};
-  mongoose.connection.close();
-  done();
-});
-
 describe('## User APIs', () => {
+  let mongoServer;
+
+  before(async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+
+    mongoose.connect(mongoUri);
+  });
+
+  after(async () => {
+    await mongoose.disconnect();
+    await mongoServer.stop();
+  });
+
   let user = {
     username: 'KK123',
-    mobileNumber: '1234567890'
+    mobileNumber: '1234567890',
   };
 
   describe('# POST /api/users', () => {
