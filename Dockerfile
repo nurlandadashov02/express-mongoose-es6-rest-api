@@ -14,7 +14,7 @@ WORKDIR /app
 ADD package.json /app/
 
 # --pure-lockfile: Don’t generate a yarn.lock lockfile
-RUN npm install
+RUN npm install -f
 
 # copy all file from current dir to /app in container
 COPY . /app/
