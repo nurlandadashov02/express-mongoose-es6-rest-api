@@ -1,5 +1,5 @@
 # Use latest node version 8.x
-FROM node
+FROM node:alpine
 
 # create app directory in container
 RUN mkdir -p /app
