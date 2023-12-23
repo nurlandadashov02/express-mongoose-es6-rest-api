@@ -38,5 +38,5 @@ const config = {
     port: envVars.MONGO_PORT,
   }
 };
-
+ 
 module.exports = config;
