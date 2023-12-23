@@ -79,14 +79,10 @@ jobs:
       - name: Move file to merged.sarif (CodeQL)
         run: mv reports/*.sarif merged.sarif
 
-      - name: Exclude external lib
-        run: |
-          jq 'del(.runs[].results[].locations[] | select(.physicalLocation.artifactLocation.uri | contains("subprojects/")))' merged.sarif > tmp0.sarif
-          jq 'del(.runs[].results[] | select(.locations | length == 0))' tmp0.sarif > filtered.sarif
-
       - name: Treat warnings as errors
         run: |
-          jq '.runs[].tool.driver.rules[] |= . + {"defaultConfiguration": {"level": "error"}}' filtered.sarif > final.sarif
+          jq '.runs[].tool.driver.rules[] |= . + {"defaultConfiguration": {"level": "critical"}}' merged.sarif > final.sarif
+          cat final.sarif
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
