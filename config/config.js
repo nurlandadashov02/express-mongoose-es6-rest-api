@@ -37,7 +37,6 @@ const config = {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT,
   },
-  AWS_ACCESS_KEY: 'AKIAIOSFODNN7EXAMPLE',
   AWS_SECRET_ACCESS_KEY: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 };
 
