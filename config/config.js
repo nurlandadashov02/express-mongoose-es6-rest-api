@@ -32,11 +32,13 @@ const config = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongooseDebug: envVars.MONGOOSE_DEBUG,
-  jwtSecret: 'MY_SUPER_SECRET_JWT_SECRET',
+  jwtSecret: envVars.JWT_SECRET,
   mongo: {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT,
   },
+  AWS_ACCESS_KEY: 'AKIAIOSFODNN7EXAMPLE',
+  AWS_SECRET_KEY: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 };
 
 module.exports = config;
