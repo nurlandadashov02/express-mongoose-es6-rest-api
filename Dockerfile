@@ -1,10 +1,6 @@
 # Use latest node version 8.x
 FROM node
 
-# Update the package index and install necessary tools
-RUN apt update && \
-    apt install openssh
-
 # create app directory in container
 RUN mkdir -p /app
 
