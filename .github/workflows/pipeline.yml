@@ -113,7 +113,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
     needs: 
       - lint
@@ -128,6 +128,12 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ github.repository }} .
 
+  push_image:
+    runs-on: ubuntu-latest
+    needs: 
+      - build
+
+    steps:
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
