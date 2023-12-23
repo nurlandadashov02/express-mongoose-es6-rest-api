@@ -21,14 +21,6 @@ function get(req, res) {
 }
 
 /**
- * Get user id
- * @returns {User}
- */
-function getId(req, res) {
-  return res.send(`<p>${req.params.userId}</p>`);
-}
-
-/**
  * Create new user
  * @property {string} req.body.username - The username of user.
  * @property {string} req.body.mobileNumber - The mobileNumber of user.
@@ -38,6 +30,7 @@ function create(req, res, next) {
   const user = new User({
     username: req.body.username,
     mobileNumber: req.body.mobileNumber,
+    password: req.body.password,
   });
 
   user
@@ -88,4 +81,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove, getId };
+module.exports = { load, get, create, update, list, remove };

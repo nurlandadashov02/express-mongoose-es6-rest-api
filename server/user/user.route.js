@@ -24,11 +24,6 @@ router
   /** DELETE /api/users/:userId - Delete user */
   .delete(userCtrl.remove);
 
-router
-  .route('/test/:userId')
-  /** GET /api/users/test/:userId - Get user id */
-  .get(userCtrl.getId);
-
 /** Load user when API with userId route parameter is hit */
 router.param('userId', userCtrl.load);
 
