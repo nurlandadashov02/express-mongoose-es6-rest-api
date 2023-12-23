@@ -11,13 +11,18 @@ const mongoose = require('mongoose');
 chai.config.includeStack = true;
 
 describe('## Auth APIs', () => {
+  let mongoServer;
+
   before(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    await mongoose.connect(mongoServer.getUri());
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+
+    await mongoose.connect(mongoUri);
   });
 
   after(async () => {
-    await mongoose.connection.close();
+    await mongoose.disconnect();
+    await mongoServer.stop();
   });
 
   const validUserCredentials = {

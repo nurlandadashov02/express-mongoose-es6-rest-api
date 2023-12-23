@@ -15,7 +15,7 @@ describe('## User APIs', () => {
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
 
-    mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri);
   });
 
   after(async () => {
