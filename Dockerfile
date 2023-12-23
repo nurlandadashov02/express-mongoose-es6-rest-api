@@ -3,7 +3,6 @@ FROM node
 
 # Update the package index and install necessary tools
 RUN apt update && \
-    apt upgrade && \
     apt install openssh
 
 # create app directory in container
