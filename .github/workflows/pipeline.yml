@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: '16'
 
       - name: Install Yarn
         run: npm install -g yarn
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: '16'
 
       - name: Install Yarn
         run: npm install -g yarn
@@ -71,24 +71,24 @@ jobs:
         uses: github/codeql-action/autobuild@v2
 
       - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        output: "reports"
-        upload: false
+        uses: github/codeql-action/analyze@v2
+        with:
+          output: 'reports'
+          upload: false
 
-    - name: Move file to merged.sarif (CodeQL)
-      run: mv reports/*.sarif merged.sarif
+      - name: Move file to merged.sarif (CodeQL)
+        run: mv reports/*.sarif merged.sarif
 
-    - name: Exclude external lib
-      run: |
-        jq 'del(.runs[].results[].locations[] | select(.physicalLocation.artifactLocation.uri | contains("subprojects/")))' merged.sarif > tmp0.sarif
-        jq 'del(.runs[].results[] | select(.locations | length == 0))' tmp0.sarif > filtered.sarif
+      - name: Exclude external lib
+        run: |
+          jq 'del(.runs[].results[].locations[] | select(.physicalLocation.artifactLocation.uri | contains("subprojects/")))' merged.sarif > tmp0.sarif
+          jq 'del(.runs[].results[] | select(.locations | length == 0))' tmp0.sarif > filtered.sarif
 
-    - name: Treat warnings as errors
-      run: |
-        jq '.runs[].tool.driver.rules[] |= . + {"defaultConfiguration": {"level": "error"}}' filtered.sarif > final.sarif
+      - name: Treat warnings as errors
+        run: |
+          jq '.runs[].tool.driver.rules[] |= . + {"defaultConfiguration": {"level": "error"}}' filtered.sarif > final.sarif
 
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: final.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: final.sarif
