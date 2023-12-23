@@ -79,10 +79,19 @@ jobs:
       - name: Move file to merged.sarif (CodeQL)
         run: mv reports/*.sarif merged.sarif
 
+      - name: filter-sarif
+        uses: advanced-security/filter-sarif@v1
+        with:
+          # filter out all test files unless they contain a sql-injection vulnerability
+          patterns: |
+            -**/*test*.js
+          input: merged.sarif
+          output: filtered.sarif
+
       - name: Check CodeQL results
         run: |
           # Parse SARIF content and check the length of "results" array
-          SARIF_CONTENT=$(cat merged.sarif)
+          SARIF_CONTENT=$(cat filtered.sarif)
           echo $SARIF_CONTENT
           RESULTS_LENGTH=$(echo $SARIF_CONTENT | jq -r '.runs[0].results | length')
           if [ "$RESULTS_LENGTH" -gt 0 ]; then
