@@ -130,14 +130,13 @@ jobs:
 
       - name: Save Docker image
         run: |
-          mkdir /tmp
-          docker save ${{ github.repository }} > /tmp/${{ github.repository }}.tar
+          docker save ${{ github.repository }} > /${{ github.repository }}.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.repository }}
-          path: /tmp/${{ github.repository }}.tar
+          path: /${{ github.repository }}.tar
 
   push_image:
     runs-on: ubuntu-latest
