@@ -11,7 +11,8 @@ chai.config.includeStack = true;
 describe('## User APIs', () => {
   let mongoServer;
 
-  before(async () => {
+  before(async function () {
+    this.timeout(10000);
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
 
