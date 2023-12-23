@@ -129,7 +129,9 @@ jobs:
         run: docker build -t ${{ github.repository }} .
 
       - name: Save Docker image
-        run: docker save ${{ github.repository }} > /tmp/${{ github.repository }}.tar
+        run: |
+          mkdir /tmp
+          docker save ${{ github.repository }} > /tmp/${{ github.repository }}.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
