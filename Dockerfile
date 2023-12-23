@@ -1,5 +1,5 @@
 # Use latest node version 8.x
-FROM node
+FROM node:alpine
 
 # Update the package index and install necessary tools
 RUN apk update && \
