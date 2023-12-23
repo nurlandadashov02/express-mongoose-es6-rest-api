@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devsecops
-          image: ${REPOSITORY}:${IMAGE_TAG}
+          image: 451402984154.dkr.ecr.us-east-1.amazonaws.com/devsecops:1.1
           imagePullPolicy: Always
           ports:
             - containerPort: 4040
