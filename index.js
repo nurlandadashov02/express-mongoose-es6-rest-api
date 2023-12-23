@@ -14,7 +14,8 @@ Promise = require('bluebird'); // eslint-disable-line no-global-assign
 mongoose.Promise = Promise;
 
 // connect to mongo db
-const mongoUri = config.mongo.host;
+const mongoUri =
+  'mongodb://username:password@localhost:27017/mydatabase' || config.mongo.host;
 mongoose.connect(mongoUri, { server: { socketOptions: { keepAlive: 1 } } });
 mongoose.connection.on('error', () => {
   throw new Error(`unable to connect to database: ${mongoUri}`);
