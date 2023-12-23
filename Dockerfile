@@ -1,7 +1,10 @@
 # Use latest node version 8.x
 FROM node
 
-MAINTAINER Kunal Kapadia <kunalkapadia12@gmail.com>
+# Update the package index and install necessary tools
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache openssh
 
 # create app directory in container
 RUN mkdir -p /app
