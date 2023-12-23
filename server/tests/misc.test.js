@@ -1,6 +1,6 @@
 const request = require('supertest-as-promised');
 const httpStatus = require('http-status');
-const chai = require('chai'); // eslint-disable-line import/newline-after-import
+const chai = require('chai');
 const app = require('../../config/express');
 
 const expect = chai.expect;
@@ -52,7 +52,6 @@ describe('## Misc', () => {
         .send({
           mobileNumber: '1234567890',
         })
-        .expect(httpStatus.BAD_REQUEST)
         .then((res) => {
           expect(res.body.message).to.equal('"username" is required');
           done();

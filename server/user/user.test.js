@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('supertest-as-promised');
 const httpStatus = require('http-status');
-const chai = require('chai'); // eslint-disable-line import/newline-after-import
+const chai = require('chai');
 const app = require('../../config/express');
 const { MongoMemoryServer } = require('mongodb-memory-server-core');
 const expect = chai.expect;
@@ -34,7 +34,7 @@ describe('## User APIs', () => {
     it('should create a new user', (done) => {
       request(app)
         .post('/api/users')
-        .send(user)
+        .send({ username: user.username, mobileNumber: user.mobileNumber })
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.username).to.equal(user.username);
@@ -76,7 +76,7 @@ describe('## User APIs', () => {
       user.username = 'KK';
       request(app)
         .put(`/api/users/${user._id}`)
-        .send(user)
+        .send({ username: user.username, mobileNumber: user.mobileNumber })
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.username).to.equal('KK');

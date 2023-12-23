@@ -53,10 +53,10 @@ app.use('/api', routes);
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
     // validation error contains errors which is an array of error each containing message[]
-    const unifiedErrorMessage = err.errors
-      .map((error) => error.messages.join('. '))
+    const unifiedErrorMessage = err.details.body
+      .map((error) => error.message)
       .join(' and ');
-    const error = new APIError(unifiedErrorMessage, err.status, true);
+    const error = new APIError(unifiedErrorMessage, err.statusCode, true);
     return next(error);
   } else if (!(err instanceof APIError)) {
     const apiError = new APIError(err.message, err.status, err.isPublic);
