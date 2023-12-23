@@ -42,6 +42,7 @@
     "boilerplate"
   ],
   "dependencies": {
+    "@babel/core": "^7.23.6",
     "@babel/eslint-parser": "^7.23.3",
     "bluebird": "3.5.1",
     "body-parser": "1.18.2",
