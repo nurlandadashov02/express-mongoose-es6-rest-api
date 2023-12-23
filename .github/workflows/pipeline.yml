@@ -129,13 +129,13 @@ jobs:
         run: docker build -t ${{ github.repository }} .
 
       - name: Save Docker image
-        run: docker save ${{ github.repository }} -o /tmp/${{ github.repository }}.tar
+        run: docker save ${{ github.repository }} -o /tmp/image.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.repository }}
-          path: /tmp/${{ github.repository }}.tar
+          path: /tmp/image.tar
 
   push_image:
     runs-on: ubuntu-latest
@@ -151,7 +151,7 @@ jobs:
 
       - name: Load image
         run: |
-          docker load --input /tmp/${{ github.repository }}.tar
+          docker load --input /tmp/image.tar
           docker image ls -a   
 
       - name: Log in to GitHub Container Registry
