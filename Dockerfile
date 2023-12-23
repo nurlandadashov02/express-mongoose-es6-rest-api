@@ -1,10 +1,10 @@
 # Use latest node version 8.x
-FROM node:alpine
+FROM node
 
 # Update the package index and install necessary tools
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache openssh
+RUN apt update && \
+    apt upgrade && \
+    apt install openssh
 
 # create app directory in container
 RUN mkdir -p /app
