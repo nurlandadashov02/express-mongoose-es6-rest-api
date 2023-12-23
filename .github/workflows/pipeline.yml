@@ -79,18 +79,12 @@ jobs:
       - name: Move file to merged.sarif (CodeQL)
         run: mv reports/*.sarif merged.sarif
 
-      - name: Read SARIF file
-        id: sarif
-        run: |
-          # Read SARIF file and store the results in an output variable
-          SARIF_CONTENT=$(cat merged.sarif)
-          echo "{sarif_content}={$SARIF_CONTENT}" >> $GITHUB_OUTPUT
-
       - name: Check CodeQL results
         run: |
           # Parse SARIF content and check the length of "results" array
-          echo "${{ steps.sarif.outputs.sarif_content }}"
-          RESULTS_LENGTH=$(echo "${{ steps.sarif.outputs.sarif_content }}" | jq -r '.runs[0].results | length')
+          SARIF_CONTENT=$(cat merged.sarif)
+          echo $SARIF_CONTENT
+          RESULTS_LENGTH=$(echo $SARIF_CONTENT | jq -r '.runs[0].results | length')
           if [ "$RESULTS_LENGTH" -gt 0 ]; then
             echo "CodeQL found issues. Failing the workflow."
             exit 1
