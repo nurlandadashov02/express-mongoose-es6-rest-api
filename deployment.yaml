@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devsecops
-          image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
+          image: ${REPOSITORY}:${IMAGE_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 4040
