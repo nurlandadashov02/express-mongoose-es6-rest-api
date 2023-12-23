@@ -79,12 +79,20 @@ jobs:
       - name: Move file to merged.sarif (CodeQL)
         run: mv reports/*.sarif merged.sarif
 
-      - name: Treat warnings as errors
+      - name: Read SARIF file
+        id: sarif
         run: |
-          jq '.runs[].tool.driver.rules[] |= . + {"defaultConfiguration": {"level": "critical"}}' merged.sarif > final.sarif
-          cat final.sarif
+          # Read SARIF file and store the results in an output variable
+          SARIF_CONTENT=$(cat merged.sarif)
+          echo "::set-output name=sarif_content::$SARIF_CONTENT"
 
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: final.sarif
+      - name: Check CodeQL results
+        run: |
+          # Parse SARIF content and check the length of "results" array
+          RESULTS_LENGTH=$(echo "${{ steps.sarif.outputs.sarif_content }}" | jq -r '.runs[0].results | length')
+          if [ "$RESULTS_LENGTH" -gt 0 ]; then
+            echo "CodeQL found issues. Failing the workflow."
+            exit 1
+          else
+            echo "CodeQL did not find any issues. Workflow continues."
+          fi
