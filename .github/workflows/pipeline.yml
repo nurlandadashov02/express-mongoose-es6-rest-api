@@ -265,10 +265,12 @@ jobs:
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
+          set +e
           kubectl wait --for=condition=available --timeout=60s deploy/devsecops
-          
+
           # Check the exit code 
           if [ $? -ne 0 ]; then
             echo "Deployment failed due to OPA Gatekeeper policy violations."
             exit 1
           fi
+          set -e
