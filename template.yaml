@@ -26,25 +26,15 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package k8sallowedrepos
-        import future.keywords.in
 
         violation[{"msg": msg}] {
           container := input.review.object.spec.containers[_]
-          satisfied := { true | some repo in input.parameters.repos; startswith(container.image, repo) }
-          count(satisfied) == 0
-          msg := sprintf("container <%v> has an invalid image repo <%v>, allowed repos are %v", [container.name, container.image, input.parameters.repos])
+          allowedRepos := input.parameters.repos
+          not startswith_any(container.image, allowedRepos)
+          msg := sprintf("Container <%v> has an invalid image repo <%v>, allowed repos are %v", [container.name, container.image, allowedRepos])
         }
 
-        violation[{"msg": msg}] {
-          container := input.review.object.spec.initContainers[_]
-          satisfied := { true | some repo in input.parameters.repos; startswith(container.image, repo) }
-          count(satisfied) == 0
-          msg := sprintf("initContainer <%v> has an invalid image repo <%v>, allowed repos are %v", [container.name, container.image, input.parameters.repos])
-        }
-
-        violation[{"msg": msg}] {
-          container := input.review.object.spec.ephemeralContainers[_]
-          satisfied := { true | some repo in input.parameters.repos; startswith(container.image, repo) }
-          count(satisfied) == 0
-          msg := sprintf("ephemeralContainer <%v> has an invalid image repo <%v>, allowed repos are %v", [container.name, container.image, input.parameters.repos])
+        startswith_any(s, prefixes) {
+          some prefix
+          startswith(s, prefix)
         }
