@@ -230,10 +230,7 @@ jobs:
 
       - name: Deploy to EKS
         env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: devsecops
-          IMAGE_TAG: latest
-          IMAGE: $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          IMAGE: ${{ steps.login-ecr.outputs.registry }}/devsecops:latest
           MONGO_HOST: ${{ secrets.MONGO_HOST }}
         run: |
           sed -i "s|VAL_IMAGE|$IMAGE|g" deployment.yaml
