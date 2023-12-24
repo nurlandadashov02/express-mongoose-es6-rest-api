@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devsecops
-          image: 451402984154.dkr.ecr.us-east-1.amazonaws.com/devsecops:1.1
+          image: VAL_IMAGE
           imagePullPolicy: Always
           ports:
             - containerPort: 4040
