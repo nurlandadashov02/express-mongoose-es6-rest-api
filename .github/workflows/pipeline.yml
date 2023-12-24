@@ -270,3 +270,13 @@ jobs:
           sed -i "s|VAL_MONGO_HOST|$MONGO_HOST|g" deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
+
+          # Check if any constraints were violated
+          kubectl get constraint
+          
+          VIOLATIONS=$(kubectl get constraint -o json | jq '.items[].status.violations | length')
+
+          if [ "$VIOLATIONS" -gt 0 ]; then
+            echo "OPA Gatekeeper constraints violated. Exiting with a non-zero status code."
+            exit 1
+          fi
