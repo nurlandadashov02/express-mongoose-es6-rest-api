@@ -45,8 +45,8 @@ function create(req, res, next) {
  * @returns {User}
  */
 function update(req, res, next) {
-  // const user = req.user;
-  user.username = req.body.username;
+  const user = req.user;
+  user.username = req.body.mobileNumber;
   user.mobileNumber = req.body.mobileNumber;
 
   user
