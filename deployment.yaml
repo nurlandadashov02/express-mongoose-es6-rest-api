@@ -23,5 +23,5 @@ spec:
           env:
             - name: MONGO_HOST
               value: VAL_MONGO_HOST
-             name: TEST_ENV
+            - name: TEST_ENV
               value: 2002
