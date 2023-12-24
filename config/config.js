@@ -36,8 +36,7 @@ const config = {
   mongo: {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT,
-  },
-  AWS_ACCESS_KEY: 'AKIAIOSFODNN7EXAMPLE'
+  }
 };
 
 module.exports = config;
