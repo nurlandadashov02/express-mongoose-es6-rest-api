@@ -7,6 +7,6 @@ spec:
     app: devsecops
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
       targetPort: 4040
   type: LoadBalancer
