@@ -253,7 +253,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name devsecops
+        run: aws eks update-kubeconfig --name cmpe58e
 
       - name: Deploy to EKS
         env:
