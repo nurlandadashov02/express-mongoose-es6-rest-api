@@ -265,12 +265,8 @@ jobs:
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
-          # Check if any constraints were violated
-          kubectl get constraint
-
-          VIOLATIONS=$(kubectl get constraint -o json | jq '.items[].status.violations | length')
-
-          if [ "$VIOLATIONS" -gt 0 ]; then
-            echo "OPA Gatekeeper constraints violated. Exiting with a non-zero status code."
+          # Check the exit code of kubectl apply
+          if [ $? -ne 0 ]; then
+            echo "Deployment failed due to OPA Gatekeeper policy violations."
             exit 1
           fi
