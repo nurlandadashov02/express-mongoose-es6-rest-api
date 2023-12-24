@@ -26,6 +26,7 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package k8sallowedrepos
+        import future.keywords.in
 
         violation[{"msg": msg}] {
           container := input.review.object.spec.containers[_]
