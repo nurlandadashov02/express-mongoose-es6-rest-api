@@ -20,3 +20,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4040
+          env:
+            - name: MONGO_HOST
+              value: VAL_MONGO_HOST
