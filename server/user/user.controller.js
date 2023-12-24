@@ -80,12 +80,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-/**
- * Get user id
- * @returns {User}
- */
-function getId(req, res) {
-  return res.send(`<p>${req.params.userId}</p>`);
-}
-
-module.exports = { load, get, create, update, list, remove, getId };
+module.exports = { load, get, create, update, list, remove };
