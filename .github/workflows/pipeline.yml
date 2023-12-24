@@ -265,16 +265,10 @@ jobs:
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
-          # Run kubectl describe deployment and filter the conditions using jq
-          conditions=$(kubectl describe deployment devsecops -n default | jq -r '.status.conditions[] | select(.type == "ReplicaFailure") | "\(.type) \(.status) \(.reason)"')
-
-          # Output the conditions
-          echo "$conditions"
-
-          # Check if the ReplicaFailure condition is present and has a status of "True" and a reason of "FailedCreate"
-          if [ "$(echo "$conditions" | grep 'True FailedCreate')" ]; then
-            echo "ReplicaFailure condition: FailedCreate detected. Deployment has issues."
+          kubectl wait --for=condition=available --timeout=60s deploy/devsecops
+          
+          # Check the exit code 
+          if [ $? -ne 0 ]; then
+            echo "Deployment failed due to OPA Gatekeeper policy violations."
             exit 1
-          else
-            echo "ReplicaFailure condition not detected. Deployment is healthy."
           fi
