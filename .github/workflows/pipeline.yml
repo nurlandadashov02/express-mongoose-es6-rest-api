@@ -257,7 +257,7 @@ jobs:
 
       - name: Deploy to EKS
         env:
-          IMAGE: ${{ steps.login-ecr.outputs.registry }}/devsecops:latest
+          IMAGE: ghcr.io/${{ github.repository }}:$IMAGE_TAG
           MONGO_HOST: ${{ secrets.MONGO_HOST }}
         run: |
           sed -i "s|VAL_IMAGE|$IMAGE|g" deployment.yaml
