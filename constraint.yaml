@@ -11,4 +11,5 @@ spec:
       - "default"
   parameters:
     repos:
-      - "openpolicyagen/"
+      - "openpolicyagent/"
+      - "ghcr.io/"
