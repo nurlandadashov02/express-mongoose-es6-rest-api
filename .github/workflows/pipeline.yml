@@ -255,11 +255,11 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name cmpe58e
 
-      # - name: Enforce policy to only accept images from ECR
-      #   run: kubectl apply -f template.yaml
+      - name: Enforce policy to only accept images from ECR
+        run: kubectl apply -f template.yaml
 
-      # - name: Apply contraint
-      #   run: kubectl apply -f constraint.yaml
+      - name: Apply contraint
+        run: kubectl apply -f constraint.yaml
 
       - name: Deploy to EKS
         env:
