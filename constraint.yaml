@@ -12,3 +12,4 @@ spec:
   parameters:
     repos:
       - "openpolicyagent/"
+      - "451402984154.dkr.ecr.us-east-1.amazonaws.com/"

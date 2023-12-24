@@ -1,0 +1,39 @@
+name: OPA Gatekeeper
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - template.yaml
+      - constraint.yaml
+
+jobs:
+  update_gatekeeper_rules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.0'
+        id: install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name cmpe58e
+
+      - name: Enforce policy to only accept images from ECR
+        run: kubectl apply -f template.yaml
+
+      - name: Apply contraint
+        run: kubectl apply -f constraint.yaml
